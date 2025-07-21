@@ -4,13 +4,16 @@ import { Hono } from "hono";
 
 import { config } from "./config";
 import { sl } from "./lib/sl";
+import { smhi } from "./lib/smhi";
 
 const app = new Hono()
   .use("/*", serveStatic({ root: "./public" }))
   .get("/api/sl", async c => c.json(
     await sl(config),
   ))
-  .get("/api/smhi", c => c.text("Hello Node.js!"));
+  .get("/api/smhi", async c => c.json(
+    await smhi(config),
+  ));
 
 serve({
   fetch: app.fetch,

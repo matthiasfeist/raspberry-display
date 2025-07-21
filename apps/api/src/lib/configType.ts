@@ -8,4 +8,9 @@ export type Config = {
     }[];
     walkingTime?: number;
   }[];
+  smhi: {
+    displayName: string;
+    latitude: number;
+    longitude: number;
+  }[];
 };

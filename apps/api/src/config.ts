@@ -47,4 +47,11 @@ export const config = {
       ],
     },
   ],
+  smhi: [
+    {
+      displayName: "Sundbyberg",
+      longitude: 17.95943,
+      latitude: 59.36038,
+    },
+  ],
 } satisfies Config;

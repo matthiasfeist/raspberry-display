@@ -4,7 +4,9 @@ export type {
     Deviation,
     SlResultObj,
     DepartureStatus,
-    Config
+    Config,
+    WeatherIcon,
+    SMHIResponse,
 } from './lib/types';
 
 // Export the app type for hono client

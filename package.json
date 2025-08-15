@@ -6,7 +6,8 @@
     "dev": "pnpm run -r --parallel --aggregate-output dev",
     "build": "pnpm run -r build",
     "test": "pnpm run -r --parallel test",
-    "lint": "pnpx sherif@latest"
+    "lint": "pnpx sherif@latest && pnpm run -r typecheck",
+    "start": "pnpm run build && pnpm run -r --parallel start"
   },
   "private": true,
   "packageManager": "pnpm@10.12.4",

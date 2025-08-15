@@ -1,0 +1,13 @@
+{
+  "name": "@raspberry-display/electron",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "electron main.cjs",
+    "postinstall": "node ./node_modules/electron/install.js"
+  },
+  "dependencies": {
+    "electron": "^37.3.0"
+  }
+}

@@ -1,17 +1,17 @@
-import type { Config } from "./lib/configType";
+import type { Config } from './lib/configType';
 
 export const config = {
   sl: [
     {
       // find the site IDs here: https://transport.integration.sl.se/v1/sites
-      siteId: "9325", // Sundbyberg's Centrum
-      displayName: "Pendeltåg",
+      siteId: '9325', // Sundbyberg's Centrum
+      displayName: 'Pendeltåg',
       walkingTime: 11,
       filterDepartures: [
         {
           // here you can use glob patterns like * or ?.
           // for example: 43* to match line 43 and 43X
-          designation: "43*",
+          designation: '43*',
 
           // Direction filter, enter either 1 or 2 here.
           // To find out if you need 1 or 2, you can only try out the different values
@@ -21,27 +21,27 @@ export const config = {
       ],
     },
     {
-      siteId: "9325", // Sundbyberg's Centrum
-      displayName: "Tunnelbana",
+      siteId: '9325', // Sundbyberg's Centrum
+      displayName: 'Tunnelbana',
       walkingTime: 12,
       filterDepartures: [
         {
-          designation: "10",
+          designation: '10',
           direction: 2, // to Kungsträdgården
         },
       ],
     },
     {
-      siteId: "3680", // Bällsta Bro
-      displayName: "Tvärbana: Sickla",
+      siteId: '3680', // Bällsta Bro
+      displayName: 'Tvärbana: Sickla',
       walkingTime: 4,
       filterDepartures: [
         {
-          designation: "30",
+          designation: '30',
           direction: 2, // to Sickla
         },
         {
-          designation: "30",
+          designation: '30',
           direction: 1, // to Solna
         },
       ],
@@ -49,7 +49,7 @@ export const config = {
   ],
   smhi: [
     {
-      displayName: "Sundbyberg",
+      displayName: 'Sundbyberg',
       longitude: 17.95943,
       latitude: 59.36038,
     },

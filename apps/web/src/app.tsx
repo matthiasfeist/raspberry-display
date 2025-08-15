@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { apiClient } from './lib/apiClient';
-import type { SlResultObj } from '@raspberry-display/api/types';
 import './index.css';
 import { DisplayNameHeader } from './components/displayNameHeader';
 import { LoadingMessage } from './components/loadingMessage';

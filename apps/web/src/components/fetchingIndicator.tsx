@@ -1,5 +1,5 @@
 import { useIsFetching } from '@tanstack/react-query';
-import { RiLoopRightLine } from '@remixicon/react';
+import { RiLoopRightLine } from 'react-icons/ri';
 
 export function FetchingIndicator() {
   const isFetching = useIsFetching();

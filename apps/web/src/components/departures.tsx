@@ -5,7 +5,7 @@ export function DeparturesList({ departures }: { departures: Departure[] }) {
   if (departures.length === 0) return <div>No departures</div>;
 
   return (
-    <div className="flex flex-row gap-2 pt-2 mask-r-from-80% mask-r-to-100%">
+    <div className="flex flex-row gap-2 pt-2 mask-r-from-80% mask-r-to-100% overflow-hidden">
       {departures.map((dep) => {
         let statusText = 'on time';
         if (dep.status === 'DELAYED') statusText = 'delayed';

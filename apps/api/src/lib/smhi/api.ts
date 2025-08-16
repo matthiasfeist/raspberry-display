@@ -26,7 +26,7 @@ export const smhiSchema = z.object({
 
 export type SmhiResponseType = z.infer<typeof smhiSchema>;
 
-const smhiCache = new TTLCache({ ttl: 1000 * 60 * 60 }); // 1 hour
+const smhiCache = new TTLCache({ ttl: 1000 * 60 * 15 }); // 15 mins
 
 export async function getSmhiData(
   latitude: number,

@@ -7,9 +7,10 @@
     "build": "pnpm run -r build",
     "test": "pnpm run -r --parallel test",
     "lint": "pnpx sherif@latest && pnpm run -r typecheck",
-    "start": "pnpm run -r --parallel start",
+    "start": "DISPLAY=\"${DISPLAY:=:0}\" pnpm run -r --parallel start",
     "screen-rotate": "DISPLAY=:0 xrandr --output HDMI-1 --rotate left",
-    "screen-reset": "DISPLAY=:0 xrandr --output HDMI-1 --rotate normal"
+    "screen-reset": "DISPLAY=:0 xrandr --output HDMI-1 --rotate normal",
+    "postinstall": "pnpm run build"
   },
   "private": true,
   "packageManager": "pnpm@10.12.4",

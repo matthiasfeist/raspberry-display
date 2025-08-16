@@ -89,20 +89,20 @@ function ForecastIcon({
       return isNight ? <WiNightFog size={size} /> : <WiDayFog size={size} />;
     case 'LIGHT_RAIN':
       return isNight ? (
-        <WiNightShowers size={size} className="text-blue-200" />
+        <WiNightShowers size={size} className="text-sky-300" />
       ) : (
-        <WiDayShowers size={size} className="text-blue-200" />
+        <WiDayShowers size={size} className="text-sky-300" />
       );
     case 'HEAVY_RAIN':
       return isNight ? (
-        <WiNightRain size={size} className="text-blue-400" />
+        <WiNightRain size={size} className="text-sky-500" />
       ) : (
-        <WiDayRain size={size} className="text-blue-400" />
+        <WiDayRain size={size} className="text-sky-500" />
       );
     case 'THUNDER':
       return <WiThunderstorm size={size} />;
     case 'SNOW':
-      return <WiSnow size={size} className="text-blue-400" />;
+      return <WiSnow size={size} className="text-sky-500" />;
     default:
       return <WiNa size={size} />;
   }

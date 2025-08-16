@@ -7,19 +7,18 @@ import {
   WiNightFog,
   WiDayShowers,
   WiNightShowers,
-  WiDayRain,
-  WiNightRain,
   WiThunderstorm,
   WiNa,
   WiNightClear,
   WiNightAltCloudy,
   WiSnow,
   WiCloudy,
+  WiRain,
 } from 'react-icons/wi';
 import chroma from 'chroma-js';
 
 const tempColor = chroma
-  .scale(['#00bcff', 'white', 'white', '#ff6467'])
+  .scale(['00a6f4', 'white', 'white', '#e7000b'])
   .domain([-10, 0, 15, 25]);
 
 export function Forecast({
@@ -89,18 +88,14 @@ function ForecastIcon({
       return isNight ? <WiNightFog size={size} /> : <WiDayFog size={size} />;
     case 'LIGHT_RAIN':
       return isNight ? (
-        <WiNightShowers size={size} className="text-sky-300" />
+        <WiNightShowers size={size} className="text-sky-500" />
       ) : (
-        <WiDayShowers size={size} className="text-sky-300" />
+        <WiDayShowers size={size} className="text-sky-500" />
       );
     case 'HEAVY_RAIN':
-      return isNight ? (
-        <WiNightRain size={size} className="text-sky-500" />
-      ) : (
-        <WiDayRain size={size} className="text-sky-500" />
-      );
+      return <WiRain size={size} className="text-sky-500" />;
     case 'THUNDER':
-      return <WiThunderstorm size={size} />;
+      return <WiThunderstorm size={size} className="text-sky-500" />;
     case 'SNOW':
       return <WiSnow size={size} className="text-sky-500" />;
     default:

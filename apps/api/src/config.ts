@@ -23,7 +23,7 @@ export const config = {
     {
       siteId: '9325', // Sundbyberg's Centrum
       displayName: 'Tunnelbana',
-      walkingTime: 12,
+      walkingTime: 11,
       filterDepartures: [
         {
           designation: '10',
@@ -33,7 +33,7 @@ export const config = {
     },
     {
       siteId: '3680', // Bällsta Bro
-      displayName: 'Tvärbana: Sickla',
+      displayName: 'Tvärbana',
       walkingTime: 4,
       filterDepartures: [
         {

@@ -59,23 +59,27 @@ function ForecastIcon({
 }) {
   switch (symbol) {
     case 'CLEAR':
-      return isNight ? <RiMoonLine size={size} /> : <RiSunLine size={size} />;
+      return isNight ? (
+        <RiMoonLine size={size} />
+      ) : (
+        <RiSunLine size={size} className="text-yellow-300" />
+      );
     case 'CLOUDY':
       return isNight ? (
-        <RiMoonCloudyLine size={size} />
+        <RiMoonCloudyLine size={size} className="text-blue-100" />
       ) : (
-        <RiSunCloudyLine size={size} />
+        <RiSunCloudyLine size={size} className="text-blue-100" />
       );
     case 'FOG':
       return <RiMistLine size={size} />;
     case 'LIGHT_RAIN':
-      return <RiRainyLine size={size} />;
+      return <RiRainyLine size={size} className="text-blue-200" />;
     case 'HEAVY_RAIN':
-      return <RiHeavyShowersLine size={size} />;
+      return <RiHeavyShowersLine size={size} className="text-blue-400" />;
     case 'THUNDER':
       return <RiThunderstormsLine size={size} />;
     case 'SNOW':
-      return <RiSnowyLine size={size} />;
+      return <RiSnowyLine size={size} className="text-blue-400" />;
     default:
       return <RiQuestionLine size={size} />;
   }

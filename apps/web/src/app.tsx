@@ -8,10 +8,26 @@ import { DeparturesList } from './components/departures';
 import { DeviationsList } from './components/deviations';
 import { FetchingIndicator } from './components/fetchingIndicator';
 import { Forecast } from './components/forecast';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  useEffect(() => {
+    setInterval(() => {
+      const mins = new Date().getMinutes();
+      setX(mins % 10);
+      setY((mins + 5) % 10);
+    }, 60 * 1000);
+  }, []);
+
   return (
-    <div>
+    <div
+      style={{
+        transform: `translate(${x}px, ${y}px)`,
+      }}
+    >
       <FetchingIndicator />
       <Sl />
       <Smhi />

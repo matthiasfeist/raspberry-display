@@ -9,8 +9,7 @@
     "lint": "pnpx sherif@latest && pnpm run -r typecheck",
     "start": "DISPLAY=\"${DISPLAY:=:0}\" pnpm run -r --parallel start",
     "screen-rotate": "DISPLAY=:0 xrandr --output HDMI-1 --rotate left",
-    "screen-reset": "DISPLAY=:0 xrandr --output HDMI-1 --rotate normal",
-    "postinstall": "pnpm run build"
+    "screen-reset": "DISPLAY=:0 xrandr --output HDMI-1 --rotate normal"
   },
   "private": true,
   "packageManager": "pnpm@10.12.4",

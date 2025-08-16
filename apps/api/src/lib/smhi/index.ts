@@ -57,6 +57,7 @@ function smhiSymbolToIcon(symbol: number): WeatherIcon {
       return 'CLEAR';
     case 3: // Variable cloudiness
     case 4: // Halfclear sky
+      return 'VARIABLE_CLOUDINESS';
     case 5: // Cloudy sky
     case 6: // Overcast
       return 'CLOUDY';

@@ -1,17 +1,26 @@
 import type { SMHIResponse, WeatherIcon } from '@raspberry-display/api/types';
 import { cn } from '../lib/cn';
 import {
-  RiHeavyShowersLine,
-  RiMistLine,
-  RiMoonCloudyLine,
-  RiMoonLine,
-  RiQuestionLine,
-  RiRainyLine,
-  RiSnowyLine,
-  RiSunCloudyLine,
-  RiSunLine,
-  RiThunderstormsLine,
-} from '@remixicon/react';
+  WiDaySunny,
+  WiDayCloudy,
+  WiDayFog,
+  WiNightFog,
+  WiDayShowers,
+  WiNightShowers,
+  WiDayRain,
+  WiNightRain,
+  WiThunderstorm,
+  WiNa,
+  WiNightClear,
+  WiNightAltCloudy,
+  WiSnow,
+  WiCloudy,
+} from 'react-icons/wi';
+import chroma from 'chroma-js';
+
+const tempColor = chroma
+  .scale(['#00bcff', 'white', 'white', '#ff6467'])
+  .domain([-10, 0, 15, 25]);
 
 export function Forecast({
   forecastList,
@@ -21,8 +30,9 @@ export function Forecast({
   if (!forecastList || forecastList.length === 0) return <div>No forecast</div>;
 
   return (
-    <div className="flex flex-row gap-2 pt-2 mask-r-from-80% mask-r-to-100% overflow-hidden">
-      {forecastList.map((forecast) => {
+    <div className="flex flex-row gap-2 pt-2 overflow-hidden">
+      {forecastList.slice(0, 8).map((forecast) => {
+        const temp = Math.round(forecast.temperature ?? -100);
         return (
           <div
             key={forecast.validTime}
@@ -38,8 +48,11 @@ export function Forecast({
                 isNight={forecast.night}
               />
             </div>
-            <div className="p-1 font-mono text-lg tabular-nums">
-              {Math.round(forecast.temperature ?? -100)}°
+            <div
+              className="p-1 font-mono text-lg tabular-nums"
+              style={{ color: tempColor(temp).hex() }}
+            >
+              {temp}°
             </div>
           </div>
         );
@@ -60,27 +73,37 @@ function ForecastIcon({
   switch (symbol) {
     case 'CLEAR':
       return isNight ? (
-        <RiMoonLine size={size} />
+        <WiNightClear size={size} />
       ) : (
-        <RiSunLine size={size} className="text-yellow-300" />
+        <WiDaySunny size={size} className="text-yellow-400" />
+      );
+    case 'VARIABLE_CLOUDINESS':
+      return isNight ? (
+        <WiNightAltCloudy size={size} />
+      ) : (
+        <WiDayCloudy size={size} />
       );
     case 'CLOUDY':
-      return isNight ? (
-        <RiMoonCloudyLine size={size} className="text-blue-100" />
-      ) : (
-        <RiSunCloudyLine size={size} className="text-blue-100" />
-      );
+      return <WiCloudy size={size} />;
     case 'FOG':
-      return <RiMistLine size={size} />;
+      return isNight ? <WiNightFog size={size} /> : <WiDayFog size={size} />;
     case 'LIGHT_RAIN':
-      return <RiRainyLine size={size} className="text-blue-200" />;
+      return isNight ? (
+        <WiNightShowers size={size} className="text-blue-200" />
+      ) : (
+        <WiDayShowers size={size} className="text-blue-200" />
+      );
     case 'HEAVY_RAIN':
-      return <RiHeavyShowersLine size={size} className="text-blue-400" />;
+      return isNight ? (
+        <WiNightRain size={size} className="text-blue-400" />
+      ) : (
+        <WiDayRain size={size} className="text-blue-400" />
+      );
     case 'THUNDER':
-      return <RiThunderstormsLine size={size} />;
+      return <WiThunderstorm size={size} />;
     case 'SNOW':
-      return <RiSnowyLine size={size} className="text-blue-400" />;
+      return <WiSnow size={size} className="text-blue-400" />;
     default:
-      return <RiQuestionLine size={size} />;
+      return <WiNa size={size} />;
   }
 }

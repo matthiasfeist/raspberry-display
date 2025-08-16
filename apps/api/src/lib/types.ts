@@ -26,6 +26,7 @@ export type SlResultObj = {
 export type WeatherIcon =
   | 'CLEAR'
   | 'CLOUDY'
+  | 'VARIABLE_CLOUDINESS'
   | 'FOG'
   | 'LIGHT_RAIN'
   | 'HEAVY_RAIN'

@@ -156,26 +156,32 @@ export async function getFilteredSlDeviations(
   if (!deviations) return [];
 
   return deviations.filter((deviation) => {
-    // Only include deviations where the current time is between publish.from and publish.upto
+    // only include deviations where the current time is between publish.from and publish.upto
     const now = new Date();
     const from = new Date(deviation.publish.from);
     const upto = new Date(deviation.publish.upto);
     if (!(now >= from && now <= upto)) return false;
     if (deviation.priority.importance_level < 5) return false;
 
-    // Check if the deviation applies to the given line designation
+    // check if the deviation applies to the given line designation
     const lineMatch = deviation.scope.lines.some(
       (line) => line.designation === lineDesignation,
     );
     if (!lineMatch) return false;
 
-    // If stopAreaId is provided, check if the deviation applies to the stop area
+    // remove messages about elevators not working:
+    const hasElevatorCategory = deviation.categories?.find(
+      (cat) => cat.type === 'LIFT',
+    );
+    if (hasElevatorCategory) return false;
+
+    // if stopAreaId is provided, check if the deviation applies to the stop area
     if (stopAreaId && deviation.scope?.stop_areas) {
       return deviation.scope.stop_areas.some(
         (stopArea) => stopArea.id === stopAreaId,
       );
     }
-    // If no stopAreaId provided, only filter by line
+
     return true;
   });
 }

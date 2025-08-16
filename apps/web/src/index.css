@@ -9,4 +9,7 @@
 html {
   background-color: var(--color-black);
   color: var(--color-white);
+  cursor: none;
+  overflow: hidden;
+  user-select: none;
 }

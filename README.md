@@ -40,16 +40,16 @@ I'll then configure my crontab to look like this: `crontab -e`
 ```
 CRON_TZ=Europe/Stockholm
 
-# Start MM in the morning:
-0 8 * * * pm2 start startRasperryDisplay
-
-# switch the screen on in the morning
-0 8 * * * ~/raspberry-display/scripts/keep-screen-on.sh
+# Start in the morning:
+30 6 * * * /home/raspberry/.nvm/versions/node/v22.16.0/bin/pm2 start startRasperryDisplay
+0 7 * * * ~/raspberry-display/scripts/keep-screen-on.sh
 
 # allow screen blanking after the morning
-30 9 * * * ~/raspberry-display/scripts/allow-screen-blanking.sh
+30 8 * * * ~/raspberry-display/scripts/allow-screen-blanking.sh
 
 # put everything to sleep in the evening
-0 22 * * * pm2 stop startRasperryDisplay
-1 22 * * * ~/raspberry-display/scripts/force-screen-off.sh
+0 21 * * * /home/raspberry/.nvm/versions/node/v22.16.0/bin/pm2 stop startRasperryDisplay
+1 21 * * * ~/raspberry-display/scripts/force-screen-off.sh
 ```
+
+Hint: Check the path to pm2 using `which pm2`. Depending on the node version you might need to adjust the path

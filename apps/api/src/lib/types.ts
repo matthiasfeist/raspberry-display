@@ -11,7 +11,8 @@ export type Departure = {
 };
 
 export type Deviation = {
-  text: string;
+  header: string;
+  details: string;
   lineDesignation: string;
   level: number;
 };

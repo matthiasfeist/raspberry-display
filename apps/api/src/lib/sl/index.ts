@@ -77,7 +77,8 @@ export async function sl(config: Config) {
         );
         for (const foundDeviation of filteredDeviations) {
           deviations.set(foundDeviation.deviation_case_id, {
-            text: foundDeviation.message_variants[0].header,
+            header: foundDeviation.message_variants[0].header,
+            details: foundDeviation.message_variants[0].details,
             lineDesignation: dep.line.designation,
             level: foundDeviation.priority.importance_level,
           });

@@ -12,8 +12,11 @@ export function DeviationsList({ deviations }: { deviations: Deviation[] }) {
 }
 function DeviationItem({ deviation }: { deviation: Deviation }) {
   return (
-    <div className="flex-1  tracking-wide font-medium grow min-w-50 line-clamp-2 text-ellipsis overflow-hidden bg-yellow-400/10 text-yellow-500 border-yellow-400/30 border-3 px-2 py-1">
-      {deviation.text}
+    <div className="flex-1 tracking-wide grow min-w-80 line-clamp-2 text-ellipsis overflow-hidden bg-yellow-400/10 border-yellow-400/30 border-3 px-2 py-1">
+      <span className="font-bold text-yellow-500 inline-block pr-3">
+        {deviation.header}
+      </span>
+      <span className="text-yellow-500/70">{deviation.details}</span>
     </div>
   );
 }

@@ -7,11 +7,13 @@
     "build": "pnpm run -r build",
     "test": "pnpm run -r --parallel test",
     "lint": "pnpx sherif@latest && pnpm run -r typecheck",
-    "start": "DISPLAY=\"${DISPLAY:=:0}\" pnpm run -r --parallel start"
+    "start": "DISPLAY=\"${DISPLAY:=:0}\" pnpm run -r --parallel start",
+    "format": "prettier -w ."
   },
   "private": true,
   "packageManager": "pnpm@10.12.4",
   "devDependencies": {
-    "prettier": "^3.6.2"
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14"
   }
 }

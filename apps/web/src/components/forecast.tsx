@@ -29,15 +29,15 @@ export function Forecast({
   if (!forecastList || forecastList.length === 0) return <div>No forecast</div>;
 
   return (
-    <div className="flex flex-row gap-2 pt-2 overflow-hidden">
+    <div className="flex flex-row gap-2 overflow-hidden pt-2">
       {forecastList.slice(0, 8).map((forecast) => {
         const temp = Math.round(forecast.temperature ?? -100);
         return (
           <div
             key={forecast.validTime}
-            className={cn('flex flex-col text-center min-w-15 gap-2')}
+            className={cn('min-w-15 flex flex-col gap-2 text-center')}
           >
-            <div className="uppercase text-sm p-1 tracking-wide font-mono text-gray-300">
+            <div className="p-1 font-mono text-sm uppercase tracking-wide text-gray-300">
               {new Date(forecast.validTime).getHours()}:00
             </div>
             <div className="flex content-center justify-center">

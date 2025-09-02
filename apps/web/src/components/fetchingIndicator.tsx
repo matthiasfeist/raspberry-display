@@ -9,7 +9,7 @@ export function FetchingIndicator() {
   }
 
   return (
-    <div className="fixed top-0 right-0 p-5">
+    <div className="fixed right-0 top-0 p-5">
       <RiLoopRightLine className="animate-spin" size={30} />
     </div>
   );

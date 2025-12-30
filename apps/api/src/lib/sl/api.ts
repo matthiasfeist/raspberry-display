@@ -160,7 +160,11 @@ export async function getFilteredSlDeviations(
     const now = new Date();
     const from = new Date(deviation.publish.from);
     const upto = new Date(deviation.publish.upto);
+
+    // remove deviations in the past or scheduled in the future
     if (!(now >= from && now <= upto)) return false;
+
+    // remove very low prio
     if (deviation.priority.importance_level < 5) return false;
 
     // check if the deviation applies to the given line designation
@@ -169,11 +173,14 @@ export async function getFilteredSlDeviations(
     );
     if (!lineMatch) return false;
 
-    // remove messages about elevators not working:
+    // remove messages about elevators not working
     const hasElevatorCategory = deviation.categories?.find(
       (cat) => cat.type === 'LIFT',
     );
     if (hasElevatorCategory) return false;
+
+    // everything with a high influence level is always shown independently of the stop areas
+    if (deviation.priority.influence_level >= 7) return true;
 
     // if stopAreaId is provided, check if the deviation applies to the stop area
     if (stopAreaId && deviation.scope?.stop_areas) {

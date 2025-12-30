@@ -26,21 +26,22 @@ export async function smhi(config: Config) {
           timeSeries.parameters.find((param) => param.name === 'Wsymb2')
             ?.values[0] ?? -1,
         );
-        const precipitation =
-          timeSeries.parameters.find((param) => param.name === 'pmean')
+        const windSpeed =
+          timeSeries.parameters.find((param) => param.name === 'ws')
             ?.values[0] ?? null;
         const night = isNight(
           validTime,
           smhiConfigEntry.latitude,
           smhiConfigEntry.longitude,
         );
+        const windChill = calculateWindChill(temperature, windSpeed);
 
         return {
           validTime,
           temperature,
           symbol,
-          precipitation,
           night,
+          windChill,
         };
       })
       .slice(1, 24); // Remove first item from the array, because it's the current time
@@ -101,4 +102,31 @@ function isNight(validTime: string, latitude: number, longitude: number) {
   return (
     date.getTime() < sunrise.getTime() || date.getTime() > sunset.getTime()
   );
+}
+
+/**
+ * Calculate the Wind-Chill
+ * @see https://www.smhi.se/kunskapsbanken/meteorologi/vind/vindens-kyleffekt
+ */
+function calculateWindChill(
+  temperature: number | null,
+  windSpeedMs: number | null,
+) {
+  if (
+    temperature === null ||
+    windSpeedMs === null ||
+    windSpeedMs < 2 ||
+    windSpeedMs > 35 ||
+    temperature < -40 ||
+    temperature > 10
+  )
+    return null;
+
+  // Calculate v to the power of 0.16 once to optimize
+  const v016 = Math.pow(windSpeedMs, 0.16);
+
+  const windChill =
+    13.12 + 0.6215 * temperature - 13.956 * v016 + 0.48669 * temperature * v016;
+
+  return windChill;
 }

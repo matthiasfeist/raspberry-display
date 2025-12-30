@@ -46,7 +46,7 @@ function Sl() {
     refetchInterval: 15_000, // 15 seconds
   });
 
-  if (isLoading) return <LoadingMessage />;
+  if (isLoading) return <LoadingMessage whatIsLoading="departures" />;
   if (error || !data) return <ErrorBox>SL: Error loading data</ErrorBox>;
 
   return (
@@ -57,7 +57,7 @@ function Sl() {
         }
 
         return (
-          <div key={result.displayName} className="px-5 pt-5 ">
+          <div key={result.displayName} className="px-5 pt-5">
             <DisplayNameHeader>{result.displayName}</DisplayNameHeader>
             <DeparturesList departures={result.departures} />
             <DeviationsList deviations={result.deviations} />
@@ -79,7 +79,7 @@ function Smhi() {
     refetchInterval: 60_000 * 10, // 10 minutes
   });
 
-  if (isLoading) return <LoadingMessage />;
+  if (isLoading) return <LoadingMessage whatIsLoading="weather forecast" />;
   if (error || !data) return <ErrorBox>SMHI: Error loading data</ErrorBox>;
 
   return (
@@ -90,7 +90,7 @@ function Smhi() {
         }
 
         return (
-          <div key={result.displayName} className="px-5 pt-10 ">
+          <div key={result.displayName} className="px-5 pt-10">
             <DisplayNameHeader>{result.displayName}</DisplayNameHeader>
             <Forecast forecastList={result.forecast} />
           </div>

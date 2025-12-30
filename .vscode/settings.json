@@ -1,5 +1,10 @@
 {
   "prettier.enable": true,
   "editor.formatOnSave": true,
-  "cSpell.words": ["Hono", "openapi"]
+  "cSpell.words": [
+    "Hono",
+    "openapi",
+    "pmean",
+    "Wsymb"
+  ]
 }

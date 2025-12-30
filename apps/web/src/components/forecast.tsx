@@ -32,6 +32,9 @@ export function Forecast({
     <div className="flex flex-row gap-2 overflow-hidden pt-2">
       {forecastList.slice(0, 8).map((forecast) => {
         const temp = Math.round(forecast.temperature ?? -100);
+        const windChill = forecast.windChill
+          ? Math.round(forecast.windChill)
+          : null;
         return (
           <div
             key={forecast.validTime}
@@ -47,6 +50,14 @@ export function Forecast({
                 isNight={forecast.night}
               />
             </div>
+            {windChill && Math.abs(windChill - temp) > 3 && (
+              <div
+                className="rounded p-1 font-mono text-lg font-bold tabular-nums text-black"
+                style={{ backgroundColor: tempColor(windChill).hex() }}
+              >
+                {windChill}°
+              </div>
+            )}
             <div
               className="p-1 font-mono text-lg tabular-nums"
               style={{ color: tempColor(temp).hex() }}

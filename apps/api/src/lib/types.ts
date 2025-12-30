@@ -43,7 +43,7 @@ export type SMHIResponse = {
     night: boolean;
     temperature: number | null;
     symbol: WeatherIcon;
-    precipitation: number | null;
+    windChill: number | null;
   }[];
 };
 

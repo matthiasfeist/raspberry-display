@@ -50,6 +50,12 @@ export function Forecast({
                 isNight={forecast.night}
               />
             </div>
+            <div
+              className="p-1 font-mono text-lg tabular-nums"
+              style={{ color: tempColor(temp).hex() }}
+            >
+              {temp}°
+            </div>
             {windChill && Math.abs(windChill - temp) > 3 && (
               <div
                 className="rounded p-1 font-mono text-lg font-bold tabular-nums text-black"
@@ -58,12 +64,6 @@ export function Forecast({
                 {windChill}°
               </div>
             )}
-            <div
-              className="p-1 font-mono text-lg tabular-nums"
-              style={{ color: tempColor(temp).hex() }}
-            >
-              {temp}°
-            </div>
           </div>
         );
       })}

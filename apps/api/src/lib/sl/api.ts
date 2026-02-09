@@ -98,9 +98,10 @@ const deviationsSchema = z.array(
 
 const slCache = new TTLCache({ ttl: 1000 * 60 * 5 }); // 5 minutes
 
+export type SlDepartureResult = z.infer<typeof departuresSchema> | null;
 export async function getSlDepartures(
   siteId: string,
-): Promise<z.infer<typeof departuresSchema> | null> {
+): Promise<SlDepartureResult> {
   const cachedResponse = slCache.get(siteId) as
     | z.infer<typeof departuresSchema>
     | undefined;

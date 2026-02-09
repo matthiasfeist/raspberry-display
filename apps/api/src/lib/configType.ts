@@ -10,6 +10,7 @@ export type Config = {
       direction: 1 | 2;
     }[];
     walkingTime?: number;
+    onlyDeviations?: boolean;
   }[];
   smhi: {
     displayName: string;

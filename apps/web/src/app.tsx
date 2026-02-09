@@ -56,10 +56,15 @@ function Sl() {
           return <ErrorBox>Error loading data</ErrorBox>;
         }
 
+        if (result.onlyDeviations && result.deviations.length === 0)
+          return null;
+
         return (
           <div key={result.displayName} className="px-5 pt-5">
             <DisplayNameHeader>{result.displayName}</DisplayNameHeader>
-            <DeparturesList departures={result.departures} />
+            {!result.onlyDeviations && (
+              <DeparturesList departures={result.departures} />
+            )}
             <DeviationsList deviations={result.deviations} />
           </div>
         );

@@ -18,6 +18,7 @@ export type Deviation = {
 export type SlResultObj = {
   displayName: string;
   error?: boolean;
+  onlyDeviations?: boolean;
   departures?: Departure[];
   deviations?: Deviation[];
 };

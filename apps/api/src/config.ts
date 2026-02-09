@@ -50,6 +50,28 @@ export const config = {
         },
       ],
     },
+    {
+      siteId: '9112', // Alvik
+      displayName: 'Alvik - green line',
+      onlyDeviations: true,
+      filterDepartures: [
+        {
+          designation: '19',
+          direction: 2, // into town
+          transportMode: 'METRO',
+        },
+        {
+          designation: '18',
+          direction: 2, // into town
+          transportMode: 'METRO',
+        },
+        {
+          designation: '17',
+          direction: 2, // into town
+          transportMode: 'METRO',
+        },
+      ],
+    },
   ],
   smhi: [
     {

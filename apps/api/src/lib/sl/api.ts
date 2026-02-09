@@ -1,5 +1,7 @@
 import TTLCache from '@isaacs/ttlcache';
+import wildcardMatch from 'wildcard-match';
 import { z } from 'zod/v4';
+import { TransportMode } from '../configType';
 
 const departuresSchema = z.object({
   departures: z.array(
@@ -84,6 +86,7 @@ const deviationsSchema = z.array(
       lines: z.array(
         z.object({
           designation: z.string(),
+          transport_mode: z.string(),
         }),
       ),
     }),
@@ -150,10 +153,13 @@ export async function getSlDeviations(): Promise<z.infer<
  */
 export async function getFilteredSlDeviations(
   lineDesignation: string,
+  transportMode: TransportMode,
   stopAreaId?: number,
 ): Promise<z.infer<typeof deviationsSchema>> {
   const deviations = await getSlDeviations();
   if (!deviations) return [];
+
+  const matchDesignationFn = wildcardMatch(lineDesignation, false);
 
   return deviations.filter((deviation) => {
     // only include deviations where the current time is between publish.from and publish.upto
@@ -169,7 +175,10 @@ export async function getFilteredSlDeviations(
 
     // check if the deviation applies to the given line designation
     const lineMatch = deviation.scope.lines.some(
-      (line) => line.designation === lineDesignation,
+      (line) =>
+        line.transport_mode === transportMode &&
+        (line.designation === lineDesignation ||
+          matchDesignationFn(line.designation)),
     );
     if (!lineMatch) return false;
 
@@ -178,6 +187,10 @@ export async function getFilteredSlDeviations(
       (cat) => cat.type === 'LIFT',
     );
     if (hasElevatorCategory) return false;
+
+    // remove messages that are "Försenad avgång" as they are generally not interesting
+    if (deviation.message_variants[0].header.startsWith('Försenad avgång'))
+      return false;
 
     // everything with a high influence level is always shown independently of the stop areas
     if (deviation.priority.influence_level >= 7) return true;

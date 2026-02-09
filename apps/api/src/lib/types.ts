@@ -13,8 +13,6 @@ export type Departure = {
 export type Deviation = {
   header: string;
   details: string;
-  lineDesignation: string;
-  level: number;
 };
 
 export type SlResultObj = {

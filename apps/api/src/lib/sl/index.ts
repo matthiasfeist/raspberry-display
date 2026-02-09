@@ -73,14 +73,28 @@ export async function sl(config: Config) {
         // Deviations
         const filteredDeviations = await getFilteredSlDeviations(
           dep.line.designation,
+          depFilter.transportMode,
           dep.stop_area.id,
         );
         for (const foundDeviation of filteredDeviations) {
           deviations.set(foundDeviation.deviation_case_id, {
             header: foundDeviation.message_variants[0].header,
             details: foundDeviation.message_variants[0].details,
-            lineDesignation: dep.line.designation,
-            level: foundDeviation.priority.importance_level,
+          });
+        }
+      }
+
+      // in case there aren't any departures, check the deviations but then for the whole line:
+      // (skipping the stoparea parameter)
+      if (filteredDepartures.length === 0) {
+        const filteredDeviations = await getFilteredSlDeviations(
+          depFilter.designation,
+          depFilter.transportMode,
+        );
+        for (const foundDeviation of filteredDeviations) {
+          deviations.set(foundDeviation.deviation_case_id, {
+            header: foundDeviation.message_variants[0].header,
+            details: foundDeviation.message_variants[0].details,
           });
         }
       }

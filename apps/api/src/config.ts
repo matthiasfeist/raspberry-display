@@ -12,6 +12,7 @@ export const config = {
           // here you can use glob patterns like * or ?.
           // for example: 43* to match line 43 and 43X
           designation: '43*',
+          transportMode: 'TRAIN',
 
           // Direction filter, enter either 1 or 2 here.
           // To find out if you need 1 or 2, you can only try out the different values
@@ -28,6 +29,7 @@ export const config = {
         {
           designation: '10',
           direction: 2, // to Kungsträdgården
+          transportMode: 'METRO',
         },
       ],
     },
@@ -39,10 +41,12 @@ export const config = {
         {
           designation: '30',
           direction: 2, // to Sickla
+          transportMode: 'TRAM',
         },
         {
           designation: '30',
           direction: 1, // to Solna
+          transportMode: 'TRAM',
         },
       ],
     },

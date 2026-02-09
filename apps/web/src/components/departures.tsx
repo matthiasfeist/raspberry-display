@@ -18,7 +18,7 @@ export function DeparturesList({ departures }: { departures: Departure[] }) {
               'w-27 h-27 border-3 flex shrink-0 flex-col border-gray-500 text-center',
               dep.dim && 'opacity-40',
               dep.status === 'DELAYED' && 'border-amber-600',
-              dep.status === 'CANCELLED' && 'border-red-600',
+              dep.status === 'CANCELLED' && 'border-red-600 bg-cancelled-stripes',
             )}
           >
             <div className="flex flex-row gap-1.5 text-nowrap p-1 text-xs font-medium uppercase tracking-wide text-gray-300">

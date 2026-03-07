@@ -7,6 +7,7 @@ import type {
 } from '../types';
 import wildcardMatch from 'wildcard-match';
 import {
+  type ApiDeviationResult,
   getFilteredSlDeviations,
   getSlDepartures,
   invalidateSlDepartureCache,
@@ -36,10 +37,10 @@ async function processSlConfigEntry(
         depFilter.transportMode,
       );
       for (const foundDeviation of filteredDeviations) {
-        deviations.set(foundDeviation.deviation_case_id, {
-          header: foundDeviation.message_variants[0].header,
-          details: foundDeviation.message_variants[0].details,
-        });
+        deviations.set(
+          foundDeviation.deviation_case_id,
+          transformDeviation(foundDeviation),
+        );
       }
     }
 
@@ -109,10 +110,10 @@ async function processSlConfigEntry(
         dep.stop_area.id,
       );
       for (const foundDeviation of filteredDeviations) {
-        deviations.set(foundDeviation.deviation_case_id, {
-          header: foundDeviation.message_variants[0].header,
-          details: foundDeviation.message_variants[0].details,
-        });
+        deviations.set(
+          foundDeviation.deviation_case_id,
+          transformDeviation(foundDeviation),
+        );
       }
     }
 
@@ -124,10 +125,10 @@ async function processSlConfigEntry(
         depFilter.transportMode,
       );
       for (const foundDeviation of filteredDeviations) {
-        deviations.set(foundDeviation.deviation_case_id, {
-          header: foundDeviation.message_variants[0].header,
-          details: foundDeviation.message_variants[0].details,
-        });
+        deviations.set(
+          foundDeviation.deviation_case_id,
+          transformDeviation(foundDeviation),
+        );
       }
     }
   }
@@ -137,5 +138,16 @@ async function processSlConfigEntry(
     onlyDeviations: slConfigEntry.onlyDeviations,
     departures: departures.sort((a, b) => a.mins - b.mins),
     deviations: Array.from(deviations.values()),
+  };
+}
+
+function transformDeviation(deviation: ApiDeviationResult[0]): Deviation {
+  return {
+    header: deviation.message_variants[0].header,
+    details: deviation.message_variants[0].details,
+    priority:
+      deviation.priority.importance_level *
+      deviation.priority.urgency_level *
+      deviation.priority.influence_level,
   };
 }

@@ -123,10 +123,8 @@ export async function getSlDepartures(
 export function invalidateSlDepartureCache() {
   slCache.clear();
 }
-
-export async function getSlDeviations(): Promise<z.infer<
-  typeof deviationsSchema
-> | null> {
+export type ApiDeviationResult = z.infer<typeof deviationsSchema>;
+export async function getSlDeviations(): Promise<ApiDeviationResult | null> {
   const cacheKey = 'deviations';
   const cachedResponse = slCache.get(cacheKey) as
     | z.infer<typeof deviationsSchema>
@@ -163,6 +161,10 @@ export async function getFilteredSlDeviations(
   const matchDesignationFn = wildcardMatch(lineDesignation, false);
 
   return deviations.filter((deviation) => {
+    const priority =
+      deviation.priority.importance_level *
+      deviation.priority.urgency_level *
+      deviation.priority.influence_level;
     // only include deviations where the current time is between publish.from and publish.upto
     const now = new Date();
     const from = new Date(deviation.publish.from);
@@ -172,7 +174,7 @@ export async function getFilteredSlDeviations(
     if (!(now >= from && now <= upto)) return false;
 
     // remove very low prio
-    if (deviation.priority.importance_level < 5) return false;
+    if (priority <= 6) return false;
 
     // check if the deviation applies to the given line designation
     const lineMatch = deviation.scope.lines.some(
@@ -189,12 +191,13 @@ export async function getFilteredSlDeviations(
     );
     if (hasElevatorCategory) return false;
 
-    // remove messages that are "Försenad avgång" as they are generally not interesting
-    if (deviation.message_variants[0].header.startsWith('Försenad avgång'))
+    // remove messages that are "Försenad avgång" or similar as they are generally not interesting
+    if (
+      deviation.message_variants[0].header.startsWith('Försenad avgång') ||
+      deviation.message_variants[0].header.startsWith('Inställd avgång') ||
+      deviation.message_variants[0].header.startsWith('Inställd delsträcka')
+    )
       return false;
-
-    // everything with a high influence level is always shown independently of the stop areas
-    if (deviation.priority.influence_level >= 7) return true;
 
     // if stopAreaId is provided, check if the deviation applies to the stop area
     if (stopAreaId && deviation.scope?.stop_areas) {

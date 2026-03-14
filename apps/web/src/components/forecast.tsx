@@ -38,7 +38,7 @@ export function Forecast({
         return (
           <div
             key={forecast.validTime}
-            className={cn('min-w-15 flex flex-col gap-2 text-center')}
+            className={cn('min-w-15 flex flex-col gap-1.5 text-center')}
           >
             <div className="p-1 font-mono text-sm uppercase tracking-wide text-gray-300">
               {new Date(forecast.validTime).getHours()}:00

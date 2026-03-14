@@ -8,6 +8,7 @@ import { DeparturesList } from './components/departures';
 import { DeviationsList } from './components/deviations';
 import { FetchingIndicator } from './components/fetchingIndicator';
 import { Forecast } from './components/forecast';
+import { PollenWidget } from './components/pollen';
 import { useEffect, useState } from 'react';
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
       <FetchingIndicator />
       <Sl />
       <Smhi />
+      <Pollen />
     </div>
   );
 }
@@ -66,6 +68,42 @@ function Sl() {
               <DeparturesList departures={result.departures} />
             )}
             <DeviationsList deviations={result.deviations} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Pollen() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['pollen'],
+    queryFn: async () => {
+      const res = await apiClient.api.pollen.$get();
+      if (res.ok) return await res.json();
+      throw new Error('Failed to fetch pollen data');
+    },
+    refetchInterval: 60_000 * 60, // 1 hour
+  });
+
+  if (isLoading) return <LoadingMessage whatIsLoading="pollen forecast" />;
+  if (error || !data) return <ErrorBox>Pollen: Error loading data</ErrorBox>;
+
+  return (
+    <div>
+      {data.map((result) => {
+        if (result.error === true) {
+          return (
+            <ErrorBox key={result.displayName}>
+              Error loading pollen data
+            </ErrorBox>
+          );
+        }
+
+        return (
+          <div key={result.displayName} className="px-5 pt-5">
+            <DisplayNameHeader>{result.displayName}</DisplayNameHeader>
+            <PollenWidget result={result} />
           </div>
         );
       })}

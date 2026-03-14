@@ -80,4 +80,11 @@ export const config = {
       latitude: 59.36038,
     },
   ],
+  pollen: [
+    {
+      // find the region IDs here: https://api.pollenrapporten.se/v1/regions
+      regionId: '2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32', // Stockholm
+      displayName: 'Pollen',
+    },
+  ],
 } satisfies Config;

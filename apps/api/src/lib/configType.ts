@@ -17,4 +17,8 @@ export type Config = {
     latitude: number;
     longitude: number;
   }[];
+  pollen: {
+    displayName: string;
+    regionId: string;
+  }[];
 };

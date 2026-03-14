@@ -47,5 +47,16 @@ export type SMHIResponse = {
   }[];
 };
 
+export type PollenResponse = {
+  displayName: string;
+  error?: boolean;
+  forecasts?: {
+    pollenName: string;
+    level: number;
+    levelName: string;
+    date: string; // YYYY-MM-DD
+  }[];
+};
+
 // Re-export config types that might be useful for frontend
 export type { Config } from './configType';

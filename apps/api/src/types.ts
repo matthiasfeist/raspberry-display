@@ -7,6 +7,7 @@ export type {
   Config,
   WeatherIcon,
   SMHIResponse,
+  PollenResponse,
 } from './lib/types';
 
 // Export the app type for hono client

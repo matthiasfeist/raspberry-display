@@ -2,24 +2,21 @@ import TTLCache from '@isaacs/ttlcache';
 import { z } from 'zod/v4';
 
 export const smhiSchema = z.object({
-  approvedTime: z.string(),
+  createdTime: z.string(),
   referenceTime: z.string(),
   geometry: z.object({
     type: z.string(),
-    coordinates: z.array(z.array(z.number())),
+    coordinates: z.array(z.number()),
   }),
   timeSeries: z.array(
     z.object({
-      validTime: z.string(),
-      parameters: z.array(
-        z.object({
-          name: z.string(),
-          levelType: z.string(),
-          level: z.number(),
-          unit: z.string(),
-          values: z.array(z.number()),
-        }),
-      ),
+      time: z.string(),
+      intervalParametersStartTime: z.string(),
+      data: z.looseObject({
+        air_temperature: z.number(),
+        wind_speed: z.number(),
+        symbol_code: z.number(),
+      }),
     }),
   ),
 });
@@ -40,7 +37,7 @@ export async function getSmhiData(
 
   // Cache miss, so we fetch from the API
   const fetchRes = await fetch(
-    `https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/${longitude}/lat/${latitude}/data.json`,
+    `https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/${longitude}/lat/${latitude}/data.json`,
   );
   if (!fetchRes.ok) return null;
 

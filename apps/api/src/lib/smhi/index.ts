@@ -17,33 +17,13 @@ export async function smhi(config: Config) {
     }
 
     const forecast = smhiResponse.timeSeries
-      .map((timeSeries) => {
-        const validTime = timeSeries.validTime;
-        const temperature =
-          timeSeries.parameters.find((param) => param.name === 't')
-            ?.values[0] ?? null;
-        const symbol = smhiSymbolToIcon(
-          timeSeries.parameters.find((param) => param.name === 'Wsymb2')
-            ?.values[0] ?? -1,
-        );
-        const windSpeed =
-          timeSeries.parameters.find((param) => param.name === 'ws')
-            ?.values[0] ?? null;
-        const night = isNight(
-          validTime,
-          smhiConfigEntry.latitude,
-          smhiConfigEntry.longitude,
-        );
-        const windChill = calculateWindChill(temperature, windSpeed);
-
-        return {
-          validTime,
-          temperature,
-          symbol,
-          night,
-          windChill,
-        };
-      })
+      .map(({ time, data }) => ({
+        validTime: time,
+        temperature: data.air_temperature,
+        symbol: smhiSymbolToIcon(data.symbol_code),
+        windChill: calculateWindChill(data.air_temperature, data.wind_speed),
+        night: isNight(time, smhiConfigEntry.latitude, smhiConfigEntry.longitude),
+      }))
       .slice(1, 24); // Remove first item from the array, because it's the current time
 
     result.push({ displayName: smhiConfigEntry.displayName, forecast });

@@ -67,7 +67,10 @@ function Sl() {
             {!result.onlyDeviations && (
               <DeparturesList departures={result.departures} />
             )}
-            <DeviationsList deviations={result.deviations} />
+            <DeviationsList
+              deviations={result.deviations}
+              showDebugLevel={result.showDebugLevel}
+            />
           </div>
         );
       })}

@@ -22,6 +22,7 @@ export type SlResultObj = {
   onlyDeviations?: boolean;
   departures?: Departure[];
   deviations?: Deviation[];
+  showDebugLevel?: boolean;
 };
 
 export type WeatherIcon =

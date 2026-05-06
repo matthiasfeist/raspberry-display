@@ -16,23 +16,30 @@ import {
 export async function sl(config: Config) {
   const result: SlResultObj[] = [];
 
-  for (const slConfigEntry of config.sl) {
-    result.push(await processSlConfigEntry(slConfigEntry));
+  for (const departureConfigEntry of config.sl.departures) {
+    result.push(
+      await processSlDepartureConfigEntry(
+        departureConfigEntry,
+        config.sl.deviations,
+      ),
+    );
   }
 
   return result;
 }
 
-async function processSlConfigEntry(
-  slConfigEntry: Config['sl'][number],
+async function processSlDepartureConfigEntry(
+  departureConfigEntry: Config['sl']['departures'][number],
+  deviationConfig: Config['sl']['deviations'],
 ): Promise<SlResultObj> {
   const departures: Departure[] = [];
   const deviations = new Map<number, Deviation>();
 
   // Special case for onlyDeviations:
-  if (slConfigEntry.onlyDeviations === true) {
-    for (const depFilter of slConfigEntry.filterDepartures) {
+  if (departureConfigEntry.onlyDeviations === true) {
+    for (const depFilter of departureConfigEntry.filterDepartures) {
       const filteredDeviations = await getFilteredSlDeviations(
+        deviationConfig.minLevel,
         depFilter.designation,
         depFilter.transportMode,
       );
@@ -45,20 +52,21 @@ async function processSlConfigEntry(
     }
 
     return {
-      displayName: slConfigEntry.displayName,
+      displayName: departureConfigEntry.displayName,
       onlyDeviations: true,
       departures,
       deviations: Array.from(deviations.values()),
+      showDebugLevel: deviationConfig.showDebugLevel,
     };
   }
 
   // for all other configs: now start loading the departures:
-  const slResponse = await getSlDepartures(slConfigEntry.siteId);
+  const slResponse = await getSlDepartures(departureConfigEntry.siteId);
   if (!slResponse) {
-    return { displayName: slConfigEntry.displayName, error: true };
+    return { displayName: departureConfigEntry.displayName, error: true };
   }
 
-  for (const depFilter of slConfigEntry.filterDepartures) {
+  for (const depFilter of departureConfigEntry.filterDepartures) {
     const matchDesignationFn = wildcardMatch(depFilter.designation, false);
     const filteredDepartures = slResponse.departures.filter(
       (dep) =>
@@ -91,8 +99,8 @@ async function processSlConfigEntry(
         status = 'CANCELLED';
 
       const dim =
-        typeof slConfigEntry.walkingTime === 'number' &&
-        mins <= slConfigEntry.walkingTime;
+        typeof departureConfigEntry.walkingTime === 'number' &&
+        mins <= departureConfigEntry.walkingTime;
 
       departures.push({
         mins,
@@ -105,6 +113,7 @@ async function processSlConfigEntry(
 
       // Deviations by stop-area
       const filteredDeviations = await getFilteredSlDeviations(
+        deviationConfig.minLevel,
         dep.line.designation,
         depFilter.transportMode,
         dep.stop_area.id,
@@ -121,6 +130,7 @@ async function processSlConfigEntry(
     // (skipping the stoparea parameter)
     if (filteredDepartures.length === 0) {
       const filteredDeviations = await getFilteredSlDeviations(
+        deviationConfig.minLevel,
         depFilter.designation,
         depFilter.transportMode,
       );
@@ -134,10 +144,11 @@ async function processSlConfigEntry(
   }
 
   return {
-    displayName: slConfigEntry.displayName,
-    onlyDeviations: slConfigEntry.onlyDeviations,
+    displayName: departureConfigEntry.displayName,
+    onlyDeviations: departureConfigEntry.onlyDeviations,
     departures: departures.sort((a, b) => a.mins - b.mins),
     deviations: Array.from(deviations.values()),
+    showDebugLevel: deviationConfig.showDebugLevel,
   };
 }
 

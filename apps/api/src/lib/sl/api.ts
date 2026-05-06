@@ -151,6 +151,7 @@ export async function getSlDeviations(): Promise<ApiDeviationResult | null> {
  * @returns Array of deviations matching the criteria, or null if none found or fetch failed.
  */
 export async function getFilteredSlDeviations(
+  minLevel: number,
   lineDesignation: string,
   transportMode: TransportMode,
   stopAreaId?: number,
@@ -173,8 +174,8 @@ export async function getFilteredSlDeviations(
     // remove deviations in the past or scheduled in the future
     if (!(now >= from && now <= upto)) return false;
 
-    // remove very low prio
-    if (priority <= 6) return false;
+    // filter prio
+    if (priority <= minLevel) return false;
 
     // check if the deviation applies to the given line designation
     const lineMatch = deviation.scope.lines.some(
